@@ -36,7 +36,7 @@ final class BladeIconsServiceProvider extends ServiceProvider
 
     private function registerFactory(): void
     {
-        $this->app->singleton(Factory::class, function (Application $app) {
+        $this->app->singleton(Factory::class, function ($app) {
             $config = $app->make('config')->get('blade-icons', []);
 
             $factory = new Factory(
@@ -62,14 +62,14 @@ final class BladeIconsServiceProvider extends ServiceProvider
             return $factory;
         });
 
-        $this->callAfterResolving(ViewFactory::class, function ($view, Application $app) {
+        $this->callAfterResolving(ViewFactory::class, function ($view, $app) {
             $app->make(Factory::class)->registerComponents();
         });
     }
 
     private function registerManifest(): void
     {
-        $this->app->singleton(IconsManifest::class, function (Application $app) {
+        $this->app->singleton(IconsManifest::class, function ($app) {
             return new IconsManifest(
                 new Filesystem(),
                 $this->manifestPath(),
